@@ -1,6 +1,8 @@
-# Cache
+# Cache 
 
 ## A minimalistic Time aware Least Recently Used (TLRU) cache implementation.
+
+[![GoDoc](https://godoc.org/github.com/zgiber/cache?status.svg)](https://godoc.org/github.com/zgiber/cache)
 
 If you need something quick and simple to use in your tests, or you don't want to install another component just to keep some hot data in the memory, this package is for you.
 
