@@ -155,6 +155,7 @@ func (m *memcache) Delete(key string) error {
 
 	if element != nil {
 		m.list.Remove(element)
+		m.currentBytes -= uint(len(element.Value.(*cachedItem).payload))
 	}
 
 	return nil

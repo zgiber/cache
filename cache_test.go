@@ -126,6 +126,9 @@ func TestDelete(t *testing.T) {
 
 	m.Delete("greeting")
 	assertStoredItemCountIs(t, m.(*memcache), 0)
+	if m.(*memcache).currentBytes != 0 {
+		t.Fatal("currentBytes expected to be 0")
+	}
 }
 
 func assertStoredItemCountIs(t *testing.T, m *memcache, expected uint) {
