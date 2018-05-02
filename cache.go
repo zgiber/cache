@@ -33,7 +33,7 @@ type Cache interface {
 	Delete(key string) error
 }
 
-type memcache struct {
+type MemCache struct {
 	sync.RWMutex
 	list         *list.List
 	items        map[string]*list.Element
@@ -50,8 +50,8 @@ type cachedItem struct {
 
 // NewMemCache returns an in-memory implementation
 // of the Cache interface.
-func NewMemCache(opts ...cacheOption) Cache {
-	m := &memcache{
+func NewMemCache(opts ...cacheOption) *MemCache {
+	m := &MemCache{
 		list:     list.New(),
 		items:    map[string]*list.Element{},
 		maxBytes: DefaultBytesLimit,
@@ -65,14 +65,14 @@ func NewMemCache(opts ...cacheOption) Cache {
 	return m
 }
 
-type cacheOption func(*memcache)
+type cacheOption func(*MemCache)
 
 // MaxItemLimit sets the maximum number
 // of items the cache can hold. When this
 // limit is exceeded, the least accessed
 // item gets deleted from the cache.
 func MaxItemLimit(l uint) cacheOption {
-	return func(m *memcache) {
+	return func(m *MemCache) {
 		m.maxItems = l
 	}
 }
@@ -82,14 +82,14 @@ func MaxItemLimit(l uint) cacheOption {
 // limit is exceeded, the least accessed
 // item gets deleted from the cache.
 func MaxBytesLimit(b uint) cacheOption {
-	return func(m *memcache) {
+	return func(m *MemCache) {
 		m.maxBytes = b
 	}
 }
 
 // Fetch retrieves an item from the cache.
 // Frequently accessed items are less likely to be evicted.
-func (m *memcache) Fetch(key string) ([]byte, error) {
+func (m *MemCache) Fetch(key string) ([]byte, error) {
 	m.Lock()
 	defer m.Unlock()
 	element, ok := m.items[key]
@@ -110,7 +110,7 @@ func (m *memcache) Fetch(key string) ([]byte, error) {
 }
 
 // Set writes an item in the cache.
-func (m *memcache) Set(key string, value []byte, exp time.Duration) error {
+func (m *MemCache) Set(key string, value []byte, exp time.Duration) error {
 	m.Lock()
 	defer m.Unlock()
 
@@ -144,7 +144,7 @@ func (m *memcache) Set(key string, value []byte, exp time.Duration) error {
 }
 
 // Delete removes an item from the cache.
-func (m *memcache) Delete(key string) error {
+func (m *MemCache) Delete(key string) error {
 	m.Lock()
 	defer m.Unlock()
 
