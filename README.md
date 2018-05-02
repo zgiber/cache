@@ -3,6 +3,7 @@
 ## A minimalistic Time aware Least Recently Used (TLRU) cache implementation.
 
 [![GoDoc](https://godoc.org/github.com/zgiber/cache?status.svg)](https://godoc.org/github.com/zgiber/cache)
+[![Go Report Card](https://goreportcard.com/badge/github.com/zgiber/cache)](https://goreportcard.com/report/github.com/zgiber/cache)
 
 If you need something quick and simple to use in your tests, or you don't want to install another component just to keep some hot data in the memory, this package is for you.
 
@@ -19,5 +20,3 @@ __A word about Time awareness:__ entries in the cache are not actively deleted b
 ## Usage
 
 See the examples directory.
-
-
