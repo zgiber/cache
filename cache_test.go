@@ -51,7 +51,7 @@ func TestSet(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assertStoredItemCountIs(t, m.(*memcache), 1)
+	assertStoredItemCountIs(t, m, 1)
 }
 
 func TestSetExisting(t *testing.T) {
@@ -67,7 +67,7 @@ func TestSetExisting(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	assertStoredItemCountIs(t, m.(*memcache), 1)
+	assertStoredItemCountIs(t, m, 1)
 }
 
 func TestSetOverItemLimit(t *testing.T) {
@@ -82,7 +82,7 @@ func TestSetOverItemLimit(t *testing.T) {
 	}
 
 	// check count
-	assertStoredItemCountIs(t, m.(*memcache), 10)
+	assertStoredItemCountIs(t, m, 10)
 
 	// check content
 	for i := 10; i < 20; i++ {
@@ -113,7 +113,7 @@ func TestSetOverBytesLimit(t *testing.T) {
 		}
 	}
 
-	assertStoredItemCountIs(t, m.(*memcache), 2)
+	assertStoredItemCountIs(t, m, 2)
 }
 
 func TestDelete(t *testing.T) {
@@ -125,13 +125,13 @@ func TestDelete(t *testing.T) {
 	}
 
 	m.Delete("greeting")
-	assertStoredItemCountIs(t, m.(*memcache), 0)
-	if m.(*memcache).currentBytes != 0 {
+	assertStoredItemCountIs(t, m, 0)
+	if m.currentBytes != 0 {
 		t.Fatal("currentBytes expected to be 0")
 	}
 }
 
-func assertStoredItemCountIs(t *testing.T, m *memcache, expected uint) {
+func assertStoredItemCountIs(t *testing.T, m *MemCache, expected uint) {
 	msg := "expected %v items to be stored, got %v\n"
 
 	if l := uint(m.list.Len()); l != expected {
